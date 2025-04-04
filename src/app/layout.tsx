@@ -1,6 +1,6 @@
-import "@fortawesome/fontawesome-free/css/all.min.css"
+import "@fortawesome/fontawesome-free/css/all.min.css";
 import type { Metadata } from "next";
-import  "./globals.css";
+import "./globals.css";
 import NextAuthProvider from "./components/providers/next-auth.providers";
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -8,20 +8,14 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  
   return (
     <html lang="en">
-      <body
-      >
-        <NextAuthProvider>
-
-        {children}
-        </NextAuthProvider>
+      <body>
+        <NextAuthProvider>{children}</NextAuthProvider>
       </body>
     </html>
   );

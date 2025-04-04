@@ -4,13 +4,10 @@ import google from "../../../../../../public/assets/images/google.png"
 import twitter from "../../../../../../public/assets/images/x.png"
 import facebook from "../../../../../../public/assets/images/facebook.png"
 import iphone from "../../../../../../public/assets/images/iphone.png"
-import { signIn } from "next-auth/react"
-import Link from "next/link"
 import { useState } from "react"
 import { z} from "zod"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import Spinner from "@/app/components/common/spinner.constant"
 import Loading from "@/app/components/common/loading.common"
 import axios from "axios"
 import { useRouter } from "next/navigation"
@@ -99,8 +96,8 @@ export default function ResetPassword(){
     />
 
    {/*  validation password */}
-   {errors.password ? <div className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
-    {errors.password?.message}
+   {errors.newPassword ? <div className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+    {errors.newPassword?.message}
      </div>:null }
     
      

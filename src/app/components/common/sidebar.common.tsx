@@ -21,11 +21,11 @@ export default function Sidebar(){
 
   
 
-    return <>
+    return <div className="lg:block hidden">
   
   <div>
   
-    <aside id="default-sidebar" className="fixed  lg:block hidden top-20 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
+    <aside id="default-sidebar" className="  lg:block hidden top-20 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
       <div className="h-full px-6 py-4 overflow-y-auto bg-white dark:bg-gray-800">
         <ul className="space-y-2 font-medium">
           <li>
@@ -81,5 +81,5 @@ export default function Sidebar(){
   
   
       
-      </>
+      </div>
   }

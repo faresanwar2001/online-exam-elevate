@@ -10,10 +10,10 @@ export default function LayoutDashboard({children}:DashLayoutProps){
 
     return<>
      <Navbar/>
-     <div className="px-10 grid   ">
+     <div className="lg:block hidden">
      <Sidebar/>
+     </div>
     {children}
     
-     </div>
     </>
 }

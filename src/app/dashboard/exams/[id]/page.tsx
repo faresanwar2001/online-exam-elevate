@@ -8,28 +8,25 @@ import { useEffect, useState } from "react";
 import "../../../globals.css";
 
 export default function AllExams() {
-  //data
-  const [exams, setExams] = useState<Exams[]>();
-  //loading
-  const [loading, setLoading] = useState<boolean>(true);
+  // Navigate
+  const { id } = useParams();
 
-  //show popup
+  // State
+  const [exams, setExams] = useState<Exams[]>();
+  const [loading, setLoading] = useState<boolean>(true);
   const [showPopup, setShowPopup] = useState<boolean>(false);
 
-  //popup open
+  // Functions
   const openPopup = () => {
     setShowPopup(true);
   };
 
-  //subject id from url params
-  const { id } = useParams();
-
-  // fetch all exams from the API
   const allExams = async () => {
     setLoading(true);
-    //get session from next-auth
+
+    // Get token from session
     const session = await getSession();
-    console.log(session?.token);
+
     const response = await axios
       .get(`https://exam.elevateegy.com/api/v1/exams?subject=${id}`, {
         headers: {
@@ -37,6 +34,7 @@ export default function AllExams() {
         },
       })
       .then((response) => {
+        // Check if the response is valid or not
         if (response.data.message === "success") {
           setExams(response.data.exams);
           setLoading(false);
@@ -47,15 +45,18 @@ export default function AllExams() {
       });
   };
 
+  // Effects
   useEffect(() => {
     allExams();
   }, []);
 
   return (
     <>
+      {/* Loading */}
       {loading ? (
         <>
           <div className="flex justify-center items-center ">
+            {/* Spinner for loading */}
             <Spinner />
           </div>
         </>
@@ -69,14 +70,20 @@ export default function AllExams() {
             <div className="icon">
               <div className="img"></div>
               <div className="icon-title">
+                {/* Exam Title */}
                 <h5 className="font-semibold">{exam?.title} </h5>
+
+                {/* Number of questions */}
                 <p className="text-[#535353] mb-1">
                   {exam?.numberOfQuestions} Questions
                 </p>
               </div>
             </div>
             <div className="start">
+              {/* Duration */}
               <h5 className="text-[#535353] mb-1">{exam?.duration} Minutes</h5>
+
+              {/* Start button */}
               <Link
                 className="bg-[#4461F2] py-[4px] px-[24px] rounded-[10px] text-white"
                 href={""}
@@ -89,6 +96,7 @@ export default function AllExams() {
               <div className="popupOverlay">
                 <div className="popupContent">
                   <div className="p-3 rounded text-start">
+                    {/* Instructions */}
                     <h2 className="text-lg font-semibold mb-4 text-start text-gray-900">
                       Instructions
                     </h2>
@@ -108,6 +116,7 @@ export default function AllExams() {
                       </li>
                     </ul>
                     <div className="flex justify-between">
+                      {/* Navigate exam using id */}
                       <Link
                         href={`/dashboard/questions/${exam?._id}`}
                         className="bg-[#4461F2] text-center w-full py-[4px] px-[24px] rounded-[10px] text-white hover:bg-blue-500 focus:outline-none mt-3"
