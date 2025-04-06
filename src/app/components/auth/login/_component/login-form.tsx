@@ -1,10 +1,5 @@
 "use client";
 
-import Image from "next/image";
-import google from "../../../../../../public/assets/images/google.png";
-import twitter from "../../../../../../public/assets/images/x.png";
-import facebook from "../../../../../../public/assets/images/facebook.png";
-import iphone from "../../../../../../public/assets/images/iphone.png";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useState } from "react";
@@ -12,15 +7,14 @@ import { z } from "zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Loading from "@/app/components/common/loading.common";
+import FooterForm from "@/app/components/common/footer-form";
 
 export default function LoginForm() {
-  //error
+  // State
   const [error, setError] = useState<string | null>(null);
-
-  //loading
   const [loading, setLoading] = useState<boolean>(false);
 
-  //validation
+  // Form & Validation
   const loginSchema = z.object({
     email: z
       .string({ required_error: "Email is required" })
@@ -32,7 +26,15 @@ export default function LoginForm() {
 
   type InputForm = z.infer<typeof loginSchema>;
 
-  //form submit
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<InputForm>({
+    resolver: zodResolver(loginSchema),
+  });
+
+  // Functions
   const handleSubmitForm: SubmitHandler<InputForm> = async (values) => {
     setLoading(true);
     const response = await signIn("credentials", {
@@ -48,15 +50,6 @@ export default function LoginForm() {
       setError(response?.error || "Failed to sign in");
     }
   };
-
-  //react form
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<InputForm>({
-    resolver: zodResolver(loginSchema),
-  });
 
   return (
     <>
@@ -80,6 +73,7 @@ export default function LoginForm() {
               onSubmit={handleSubmit(handleSubmitForm)}
               className="   flex flex-col gap-6  "
             >
+              {/* Heading */}
               <h3
                 style={{
                   fontWeight: "700",
@@ -129,6 +123,7 @@ export default function LoginForm() {
               ) : null}
 
               <p className="text-end">
+                {/* Navigate Forget password */}
                 <Link
                   href={"/components/auth/forgetPassword"}
                   className="text-[#4461F2]"
@@ -136,7 +131,7 @@ export default function LoginForm() {
                   Forget Your Password ?
                 </Link>
               </p>
-
+              {/* Button submit */}
               <button
                 style={{ backgroundColor: "rgba(68, 97, 242, 1)" }}
                 className="rounded-[20px] p-[8px] w-[410px] h-[56px] text-[16px] text-white"
@@ -145,30 +140,8 @@ export default function LoginForm() {
                 {loading ? "Loading..." : "Sign in"}
               </button>
             </form>
-
-            <h4 className="continueH text-[#6C737F] ">Or Continue with</h4>
-            <div className="flex gap-8 justify-center items-center mt-2">
-              <Image
-                src={google}
-                alt="Google"
-                className="  rounded-[15.38]    w-[23.57px] h-[23.57px]"
-              />
-              <Image
-                src={twitter}
-                alt="Twitter"
-                className=" rounded-[15.38]  w-[23.57px] h-[23.57px]"
-              />
-              <Image
-                src={facebook}
-                alt="Facebook"
-                className=" rounded-[15.38]  w-[23.57px] h-[23.57px]"
-              />
-              <Image
-                src={iphone}
-                alt="Facebook"
-                className=" rounded-[15.38]  w-[23.57px] h-[23.57px]"
-              />
-            </div>
+            {/* Footer form */}
+            <FooterForm />
           </div>
         </>
       )}
